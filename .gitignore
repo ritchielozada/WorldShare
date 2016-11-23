@@ -22,10 +22,11 @@ sysinfo.txt
 /*.unityproj
 /*.booproj
 
-# ============ #
-# Excludes     #
-# ============ #
+# ===================== #
+# Exclude Vuforia SDK   #
+# ===================== #
 Assets/Vuforia/
+Assets/Plugins/
  
 # ============ #
 # OS generated #

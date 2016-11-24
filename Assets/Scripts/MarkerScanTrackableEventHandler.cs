@@ -4,7 +4,6 @@ All Rights Reserved.
 Confidential and Proprietary - Protected under copyright and other laws.
 ==============================================================================*/
 
-using System.Security.Policy;
 using UnityEngine;
 
 namespace Vuforia

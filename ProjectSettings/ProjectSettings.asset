@@ -352,11 +352,11 @@ PlayerSettings:
     14: VUFORIA_WSA_SETTINGS
   metroPackageName: WorldShare
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: S:\@CODER\GitHub-ritchielozada\WorldShare\Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 004e96d4fd64d301
   metroApplicationDescription: WorldShare
   wsaImages: {}
   metroTileShortName: WorldShare

@@ -21,6 +21,9 @@ sysinfo.txt
 /*.user
 /*.unityproj
 /*.booproj
+/WindowsStoreApp
+/UWP
+/Assets/WSATestCertificate.pfx*
 
 # ===================== #
 # Exclude Vuforia SDK   #

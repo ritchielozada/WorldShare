@@ -356,7 +356,7 @@ PlayerSettings:
   metroCertificatePassword: 
   metroCertificateSubject: DefaultCompany
   metroCertificateIssuer: DefaultCompany
-  metroCertificateNotAfter: 004e96d4fd64d301
+  metroCertificateNotAfter: 009d76603365d301
   metroApplicationDescription: WorldShare
   wsaImages: {}
   metroTileShortName: WorldShare

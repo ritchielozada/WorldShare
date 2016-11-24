@@ -127,7 +127,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 475158, guid: 8aaf37823b26ee449bb3b3d7775965c3, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 114000012667812730, guid: 8aaf37823b26ee449bb3b3d7775965c3,
         type: 2}
@@ -460,7 +460,7 @@ Transform:
   - {fileID: 1892314257}
   - {fileID: 1377690677}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1 &386050734
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,7 +568,7 @@ Transform:
   m_Children:
   - {fileID: 86526222}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 5
 --- !u!1 &448076187
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,7 +702,7 @@ Transform:
   m_Children:
   - {fileID: 54394566}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 3
 --- !u!1 &670434734
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,7 +754,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
 --- !u!1001 &805461584
 Prefab:
   m_ObjectHideFlags: 0
@@ -792,7 +792,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 402774, guid: b84b73491ac53a34095000876132a211, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2035550, guid: b84b73491ac53a34095000876132a211, type: 2}
       propertyPath: near clip plane
@@ -1172,7 +1172,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 4
 --- !u!1 &1220128073
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,13 +1350,13 @@ GameObject:
   m_Component:
   - 4: {fileID: 1552316198}
   - 114: {fileID: 1552316197}
+  - 114: {fileID: 1552316200}
   - 114: {fileID: 1552316206}
   - 114: {fileID: 1552316205}
   - 114: {fileID: 1552316204}
   - 114: {fileID: 1552316203}
   - 114: {fileID: 1552316202}
   - 114: {fileID: 1552316201}
-  - 114: {fileID: 1552316200}
   - 82: {fileID: 1552316199}
   m_Layer: 0
   m_Name: GameController
@@ -1378,8 +1378,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VuforiaGroup: {fileID: 265805798}
   TrackingObject: {fileID: 1385738364}
-  AnchorObject: {fileID: 1000010204480358, guid: 42a33eb44af98ff4181c92f2cae44d04,
-    type: 2}
 --- !u!4 &1552316198
 Transform:
   m_ObjectHideFlags: 0
@@ -1392,7 +1390,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 11
 --- !u!82 &1552316199
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1480,6 +1478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlacementObject: {fileID: 86526221}
   SavedAnchorFriendlyName: WorldAnchor1
+  CurentState: 0
 --- !u!114 &1552316201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1531,6 +1530,42 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1552316197}
           m_MethodName: StopScan
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+  - Keyword: Place Anchor
+    KeyCode: 51
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1552316197}
+          m_MethodName: PlaceAnchor
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+  - Keyword: Lock Anchor
+    KeyCode: 52
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1552316197}
+          m_MethodName: LockAnchor
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1633,7 +1668,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000013535415816, guid: b2db04283121ca74495c2ee000fb4243, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2db04283121ca74495c2ee000fb4243, type: 2}
@@ -1720,7 +1755,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400006, guid: bf30d577eead1ef40bcf2b404289daf4, type: 2}
       propertyPath: VuforiaLicenseKey
-      value: Afgu29//////AAAAG7jhuSiH6EcWisFw8Ev/V/Ub0fZ+/yz3l/V5v1P5WzDeHNnWcPeo7u2jrlO8lrwQGaDY0FmnFTpGGc4m5nwsUenm4q7M8F8+EWn42p+h8QV4biMx/8wroyH+EaEtVH7WY7IXGFbAdoM94YUJtMeJ0wNEL3nzel64G5Mwprw+IneCFTY6ciz+Nod9xMjVBzjdPZVVW6t+omXMEyJtBG8viRrrv7hSX0rfHkac4OvIqFbNC4sj8dd0SfVuSqxpzkP6wYzay4m1XJWznm+2ShNf9GtnFufwgHSLlghllBJ8JEnmt/xBeI1QCVJ9DUL9JsT43nZUzef5f/nN8ah0R+ValwUGYqZX3LClp21X/OOxDBwr
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 11400006, guid: bf30d577eead1ef40bcf2b404289daf4, type: 2}
       propertyPath: mWorldCenterMode
@@ -1810,7 +1845,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000013298573622, guid: 2ed75ffdf9031c94e8bce4b3d17b9928, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2ed75ffdf9031c94e8bce4b3d17b9928, type: 2}

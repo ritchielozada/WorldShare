@@ -8,12 +8,12 @@ public class AnchorControl : MonoBehaviour
 {
     public GameObject PlacementObject;
     public string SavedAnchorFriendlyName;
+
     private WorldAnchorManager anchorManager;
-    private WorldAnchorStore anchorStore;
-    private SpatialMappingManager spatialMappingManager;
+    private WorldAnchorStore anchorStore;    
     private TextToSpeechManager ttsMgr;
     
-    private enum ControlState
+    public enum ControlState
     {
         WaitingForAnchorStore,
         CheckAnchorStatus,
@@ -21,12 +21,12 @@ public class AnchorControl : MonoBehaviour
         PlaceAnchor
     }
 
-    private ControlState curentState;
+    public ControlState CurentState;
 
     // Use this for initialization
     void Start()
     {
-        curentState = ControlState.WaitingForAnchorStore;
+        CurentState = ControlState.WaitingForAnchorStore;
 
         ttsMgr = GetComponent<TextToSpeechManager>();
         if (ttsMgr == null)
@@ -38,13 +38,7 @@ public class AnchorControl : MonoBehaviour
         if (anchorManager == null)
         {
             Debug.LogError("This script expects that you have a WorldAnchorManager component in your scene.");
-        }
-
-        spatialMappingManager = SpatialMappingManager.Instance;
-        if (spatialMappingManager == null)
-        {
-            Debug.LogError("This script expects that you have a SpatialMappingManager component in your scene.");
-        }
+        }        
 
         WorldAnchorStore.GetAsync(AnchorStoreReady);
     }
@@ -52,15 +46,16 @@ public class AnchorControl : MonoBehaviour
     void AnchorStoreReady(WorldAnchorStore store)
     {
         anchorStore = store;
-        curentState = ControlState.CheckAnchorStatus;
+        CurentState = ControlState.CheckAnchorStatus;
         Debug.Log("Anchor Store Ready");        
     }
     
     void Update()
     {
-        switch (curentState)
+        switch (CurentState)
         {            
             case ControlState.CheckAnchorStatus:
+                // Anchor Diagnostics
                 var cnt = anchorStore.anchorCount;                
                 if (cnt > 0)
                 {
@@ -75,49 +70,37 @@ public class AnchorControl : MonoBehaviour
                 }
                 else
                 {
-                    ttsMgr.SpeakText("No Anchors Found, Creating Anchor");
-                    Debug.Log("No Anchors Found, Creating Anchor");
-                }                
+                    var msg = "No Anchors Found, Creating Anchor";
+                    ttsMgr.SpeakText(msg);
+                    Debug.Log(msg);
+                }
+
+                // Creates new anchor (based on name) if needed or attach existing
                 anchorManager.AttachAnchor(PlacementObject, SavedAnchorFriendlyName);
-                curentState = ControlState.Ready;
+                CurentState = ControlState.Ready;
                 break;
             case ControlState.Ready:
                 break;
-            case ControlState.PlaceAnchor:
-                // TODO: Use GazeManager + Cursor Tracking instead of another Raycast
-                var headPosition = Camera.main.transform.position;
-                var gazeDirection = Camera.main.transform.forward;
-                RaycastHit hitInfo;
-                if (Physics.Raycast(headPosition, gazeDirection, out hitInfo,
-                    30.0f, spatialMappingManager.LayerMask))
-                {                    
-                    PlacementObject.transform.position = hitInfo.point;
-
-                    // Rotate this object to face the user.
-                    //Quaternion toQuat = Camera.main.transform.localRotation;
-                    //toQuat.x = 0;
-                    //toQuat.z = 0;
-                    //this.transform.rotation = toQuat;
-                }
+            case ControlState.PlaceAnchor:                
                 break;
         }
     }
 
     public void PlaceAnchor()
     {
-        if (curentState != ControlState.Ready)
+        if (CurentState != ControlState.Ready)
         {
             ttsMgr.SpeakText("AnchorStore Not Ready");
             return;
         }
-        
+
         anchorManager.RemoveAnchor(PlacementObject);
-        curentState = ControlState.PlaceAnchor;
+        CurentState = ControlState.PlaceAnchor;
     }
 
     public void LockAnchor()
     {
-        if (curentState != ControlState.PlaceAnchor)
+        if (CurentState != ControlState.PlaceAnchor)
         {
             ttsMgr.SpeakText("Not in Anchor Placement State");
             return;
@@ -125,7 +108,7 @@ public class AnchorControl : MonoBehaviour
         
         // Add world anchor when object placement is done.
         anchorManager.AttachAnchor(PlacementObject, SavedAnchorFriendlyName);
-        curentState = ControlState.Ready;
+        CurentState = ControlState.Ready;
         ttsMgr.SpeakText("Anchor Placed");
     }
 }

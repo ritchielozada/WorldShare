@@ -21,12 +21,12 @@ public class AnchorControl : MonoBehaviour
         PlaceAnchor
     }
 
-    public ControlState CurentState;
+    public ControlState CurrentState;
 
     // Use this for initialization
     void Start()
     {
-        CurentState = ControlState.WaitingForAnchorStore;
+        CurrentState = ControlState.WaitingForAnchorStore;
 
         ttsMgr = GetComponent<TextToSpeechManager>();
         if (ttsMgr == null)
@@ -46,13 +46,13 @@ public class AnchorControl : MonoBehaviour
     void AnchorStoreReady(WorldAnchorStore store)
     {
         anchorStore = store;
-        CurentState = ControlState.CheckAnchorStatus;
-        Debug.Log("Anchor Store Ready");        
+        CurrentState = ControlState.CheckAnchorStatus;
+        DisplayUI.Instance.AppendText("Anchor Store Ready");
     }
     
     void Update()
     {
-        switch (CurentState)
+        switch (CurrentState)
         {            
             case ControlState.CheckAnchorStatus:
                 // Anchor Diagnostics
@@ -64,22 +64,23 @@ public class AnchorControl : MonoBehaviour
                     {
                         sb.Append(ids);
                     }
-                    Debug.Log(sb.ToString());
-                    ttsMgr.SpeakText(sb.ToString());
+                    //Debug.Log(sb.ToString());
+                    //ttsMgr.SpeakText(sb.ToString());
                     DisplayUI.Instance.AppendText(sb.ToString());
                 }
                 else
                 {
                     var msg = "No Anchors Found, Creating Anchor";
-                    ttsMgr.SpeakText(msg);
-                    Debug.Log(msg);
+                    DisplayUI.Instance.AppendText(msg);
+                    //Debug.Log(msg);
                 }
 
                 // Creates new anchor (based on name) if needed or attach existing
                 anchorManager.AttachAnchor(PlacementObject, SavedAnchorFriendlyName);
-                CurentState = ControlState.Ready;
+                CurrentState = ControlState.Ready;
+                DisplayUI.Instance.AppendText("Anchor System READY");
                 break;
-            case ControlState.Ready:
+            case ControlState.Ready:                
                 break;
             case ControlState.PlaceAnchor:                
                 break;
@@ -88,27 +89,28 @@ public class AnchorControl : MonoBehaviour
 
     public void PlaceAnchor()
     {
-        if (CurentState != ControlState.Ready)
+        if (CurrentState != ControlState.Ready)
         {
-            ttsMgr.SpeakText("AnchorStore Not Ready");
+            DisplayUI.Instance.AppendText("AnchorStore Not Ready");
             return;
         }
 
         anchorManager.RemoveAnchor(PlacementObject);
-        CurentState = ControlState.PlaceAnchor;
+        CurrentState = ControlState.PlaceAnchor;
+        DisplayUI.Instance.AppendText("Anchor Placement Started");
     }
 
     public void LockAnchor()
     {
-        if (CurentState != ControlState.PlaceAnchor)
+        if (CurrentState != ControlState.PlaceAnchor)
         {
-            ttsMgr.SpeakText("Not in Anchor Placement State");
+            DisplayUI.Instance.AppendText("Not in Anchor Placement State");
             return;
         }
         
         // Add world anchor when object placement is done.
         anchorManager.AttachAnchor(PlacementObject, SavedAnchorFriendlyName);
-        CurentState = ControlState.Ready;
-        ttsMgr.SpeakText("Anchor Placed");
+        CurrentState = ControlState.Ready;
+        DisplayUI.Instance.AppendText("Anchor Placed");
     }
 }

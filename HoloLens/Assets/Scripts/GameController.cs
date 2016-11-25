@@ -53,8 +53,9 @@ public class GameController : MonoBehaviour
                     currentState = SystemState.ShutdownScanning;
                 }
                 break;
-            case SystemState.ShutdownScanning:
-                anchorControl.LockAnchor();
+            case SystemState.MarkerLost:
+                break;
+            case SystemState.ShutdownScanning:                
                 StopScan();
                 break;
             case SystemState.PlaceAnchor:
@@ -100,45 +101,74 @@ public class GameController : MonoBehaviour
     #region CONTROL METHODS
     public void ScanMarker()
     {
-        if ((anchorControl.CurentState == AnchorControl.ControlState.Ready) 
+        if ((anchorControl.CurrentState == AnchorControl.ControlState.Ready)
             && (currentState == SystemState.Normal))
         {
             currentState = SystemState.Scanning;
             anchorControl.PlaceAnchor();
             VuforiaGroup.SetActive(true);
+            DisplayUI.Instance.AppendText("Image Marker Scan Started");
+        }
+        else
+        {
+            DisplayUI.Instance.AppendText("Image Marker Scan NOT READY");
         }
 
     }
 
     public void StopScan()
     {
-        if ((anchorControl.CurentState == AnchorControl.ControlState.PlaceAnchor) && 
-            ((currentState == SystemState.Scanning) || 
-            (currentState == SystemState.ShutdownScanning)))
+        if ((anchorControl.CurrentState == AnchorControl.ControlState.PlaceAnchor) &&
+            ((currentState == SystemState.Scanning) ||
+            (currentState == SystemState.ShutdownScanning) ||
+             (currentState == SystemState.MarkerFound) ||
+             (currentState == SystemState.MarkerLost)
+             ))
         {
             currentState = SystemState.Normal;
             anchorControl.LockAnchor();
             VuforiaGroup.SetActive(false);
+            DisplayUI.Instance.AppendText("Scanner Stopped");
+        }
+        else
+        {           
+            DisplayUI.Instance.AppendText(string.Format(
+                "Cannot STOP Image Scan\n" +
+                "anchorControl = {0}\n" +
+                "currentState = {1}",
+                anchorControl.CurrentState.ToString(),
+                currentState.ToString()));            
         }
     }
 
     public void PlaceAnchor()
     {
-        if ((anchorControl.CurentState == AnchorControl.ControlState.Ready) &&
-            (currentState == SystemState.Scanning))
+        if ((anchorControl.CurrentState == AnchorControl.ControlState.Ready) &&
+           (currentState == SystemState.Normal))
         {
             currentState = SystemState.PlaceAnchor;
-            anchorControl.PlaceAnchor();            
+            anchorControl.PlaceAnchor();
+            DisplayUI.Instance.AppendText("Place Anchor Started");
+        }
+        else
+        {
+            DisplayUI.Instance.AppendText("Cannot Place Anchor");   
         }
     }
 
     public void LockAnchor()
     {
-        if ((anchorControl.CurentState == AnchorControl.ControlState.PlaceAnchor) &&
+        if ((anchorControl.CurrentState == AnchorControl.ControlState.PlaceAnchor) &&
             (currentState == SystemState.PlaceAnchor))
+
         {
             currentState = SystemState.Normal;
-            anchorControl.LockAnchor();            
+            anchorControl.LockAnchor();
+            DisplayUI.Instance.AppendText("Anchor Placed");
+        }
+        else
+        {
+            DisplayUI.Instance.AppendText("Cannot Lock Anchor");
         }
     }
     #endregion

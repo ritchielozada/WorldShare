@@ -1,7 +1,7 @@
 # WorldShare
 Virtual World Sharing Across Platforms
 
-#HOLOLENS
+###HOLOLENS
 
 Requires Vuforia 6.1 for Unity (HoloLens Support)
 https://developer.vuforia.com/downloads/sdk
@@ -12,10 +12,10 @@ https://unity3d.com/partners/microsoft/hololens
 
 Voice Controls
 
-**"Scan Marker"**
+**"Scan Anchor"**
 * Use image tracking "Stones.PDF" to set world anchor
 
-**"Stop Marker"**
+**"Stop Scanner"**
 * Stop image tracking
 
 **"Place Anchor"**
